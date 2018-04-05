@@ -51,13 +51,21 @@ $ docker build -t bitnami/redis:latest https://github.com/bitnami/bitnami-docker
 
 If you remove the container all your data and configurations will be lost, and the next time you run the image the database will be reinitialized. To avoid this loss of data, you should mount a volume that will persist even after the container is removed.
 
-For persistence you should mount a directory at the `/bitnami` path. If the mounted directory is empty, it will be initialized on the first run.
+For data and configuration persistence you should mount a directory at the `/bitnami` path. If you wish to persist only data you should mount a directory at the `/bitnami/redis/data` path, and if you wish to persist only configuration you should mount a directory at the `/bitnami/redis/conf` path. If the mounted directory is empty, it will be initialized on the first run.
 
 
 ```bash
 $ docker run \
     -e ALLOW_EMPTY_PASSWORD=yes \
     -v /path/to/redis-persistence:/bitnami \
+    bitnami/redis:latest
+$ docker run \
+    -e ALLOW_EMPTY_PASSWORD=yes \
+    -v /path/to/redis-data-persistence:/bitnami/redis/data \
+    bitnami/redis:latest
+$ docker run \
+    -e ALLOW_EMPTY_PASSWORD=yes \
+    -v /path/to/redis-conf-persistence:/bitnami/redis/conf \
     bitnami/redis:latest
 ```
 
